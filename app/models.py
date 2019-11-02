@@ -11,6 +11,7 @@ class LoginUser(db.Model, UserMixin):
     username = db.Column(db.String(120), unique=True, nullable=False, primary_key=True)
     mfa = db.Column(db.String(80), nullable=False)
     authenticated = db.Column(db.Boolean, default=False)
+    admin = db.Column(db.Boolean, default=False)
     pw_hash = db.Column(db.String)
 
     def is_active(self):
@@ -21,6 +22,9 @@ class LoginUser(db.Model, UserMixin):
 
     def is_authenticated(self):
         return self.authenticated
+
+    def is_admin(self):
+        return self.admin
 
     def is_anonymous(self):
         return False
