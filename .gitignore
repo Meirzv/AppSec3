@@ -2,6 +2,7 @@
 *.[oa]
 *.log
 *.zip
+*.pyc
 .tox/dist/my-tox-tested-package-0.0.1.zip
 **/__pycache__/
 **/app/__pycache__/**

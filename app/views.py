@@ -64,6 +64,10 @@ def spell_checker():
         f.write(form.command.data)
         f.close()
 
+        user = models.LoginUser.query.filter_by(username=current_user.get_id()).first()
+        user.set_spell_query(form.command.data)
+        db.session.commit()
+
         p2 = subprocess.Popen(basedir + '/a.out words.txt wordlist.txt', stdin=None, shell=True, stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE)
         p3 = p2.stdout
@@ -88,6 +92,17 @@ def spell_checker():
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
+@app.route('/history')
+def history():
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+    else:
+        data = current_user.get_spell_query()
+        data = data.split(',')
+        number = len(data)
+        return render_template('history.html', title="User History", data=data)
 
 
 @app.route("/logout")
