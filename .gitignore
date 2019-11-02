@@ -1,0 +1,22 @@
+# ignore objects and archives, anywhere in the tree.
+*.[oa]
+*.log
+*.zip
+.tox/dist/my-tox-tested-package-0.0.1.zip
+**/__pycache__/
+**/app/__pycache__/**
+/.tox/*
+tox/*
+tox/dist*
+__pycache__
+venv/
+virtualenv.txt
+__pycache__/config.cpython-37.pyc
+app/__pycache__/__init__.cpython-37.pyc
+app/__pycache__/forms.cpython-37.pyc
+sub.py
+sub2.py
+words.txt
+wordlist.txt
+test_wordlist.txt
+.idea/workspace.xml
