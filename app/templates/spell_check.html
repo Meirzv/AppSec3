@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+    <h1>{{title}}</h1>
+
+        <form action="{{ (url_for('spell_checker')) }}"  method="post"  >
+        {{ form.hidden_tag() }}
+    <p>
+            {{ form.command.label  }}<br>
+            {{ form.command(id = "inputtext") }}
+            {% for error in form.command.errors %}
+            <span id = "incorrect" style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+    </p>
+            <p>
+               {{ form.submit() }}
+            </p>
+
+        </form>
+
+
+{% endblock %}
