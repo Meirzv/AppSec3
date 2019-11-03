@@ -26,3 +26,7 @@ class RegisterForm(FlaskForm):
 class SpellChecker(FlaskForm):
     command = StringField('Spell check words input', validators=[DataRequired()])
     submit = SubmitField("Go!")
+
+class HistoryAdmin(FlaskForm):
+    username = StringField('Enter a username', validators=[DataRequired()])
+    submit = SubmitField("submit")

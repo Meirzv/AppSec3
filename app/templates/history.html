@@ -3,11 +3,18 @@
 
     <h1>{{title}}</h1>
     <form action="" method="post" novalidate >
-{#        {{ data.hidden_tag() }}#}
 
-        <h1>Showing queries for the user: {{ current_user.get_id() }}</h1>
 
-    {% if data %}
+
+
+    </form>
+
+    {% if current_user.is_admin() %}
+
+        <h1>Showing queries for the user: {{ form.username.data }}</h1>
+
+
+          {% if data %}
         <p id="numqueries"> Number of queries: {{ data | length }}
         </p>
             <ul>
@@ -15,10 +22,51 @@
         <li id="query{{ n + 1 }}">{{data[n]}} <a href="history/query{{ n + 1  }}">click</a></li>
         {% endfor %}
             </ul>
+
     {% else %}
         <p id="numqueries"> No History to Show
         </p>
+        <li id="query">Nothing</li>
+
+
     {%  endif %}
-    </form>
+
+
+
+
+        <form action="" method="post" novalidate >
+        {{ form.hidden_tag() }}
+            <p>
+            {{ form.username.label  }}<br>
+            {{ form.username(id = "userquery") }}
+            {% for error in form.username.errors %}
+            <span id = "incorrect" style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+            <p>{{ form.submit() }}</p>
+
+     </form>
+
+        {% else %}
+        <h1>Showing queries for the user: {{ current_user.get_id() }}</h1>
+            {% if data %}
+        <p id="numqueries"> Number of queries: {{ data | length }}
+        </p>
+            <ul>
+        {% for n in range(data | length) %}
+        <li id="query{{ n + 1 }}">{{data[n]}} <a href="history/query{{ n + 1  }}">click</a></li>
+        {% endfor %}
+            </ul>
+
+    {% else %}
+        <p id="numqueries"> No History to Show
+        </p>
+        <li id="query">Nothing</li>
+
+        <input type="hidden" value="foo" name="user_id" />
+    {%  endif %}
+
+
+    {% endif %}
 
 {% endblock %}
