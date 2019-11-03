@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, ValidationError, optional
 from app.models import LoginUser
 
+name = None
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()])
@@ -30,3 +31,4 @@ class SpellChecker(FlaskForm):
 class HistoryAdmin(FlaskForm):
     username = StringField('Enter a username', validators=[DataRequired()])
     submit = SubmitField("submit")
+

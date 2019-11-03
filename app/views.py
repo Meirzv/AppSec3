@@ -3,7 +3,7 @@ from flask_login import LoginManager, current_user, login_required, logout_user,
 import subprocess
 
 from app import app, db, models
-from app.forms import LoginForm, RegisterForm, SpellChecker, HistoryAdmin
+from app.forms import LoginForm, RegisterForm, SpellChecker, HistoryAdmin, name
 
 import os
 
@@ -112,6 +112,9 @@ def history():
                 form.username.data = "'" + form.username.data + "'" + " Not a Valid User"
                 return render_template('history.html', title="User History", data=False, form=form)
             name = form.username.data
+            print("**")
+            print(name)
+            print("**")
             data = user.get_spell_query()
             try:
                 data = data.split('{cut}')
@@ -149,11 +152,16 @@ def history_q(queryid=None):
             print("Bad User input")
             return redirect(url_for('history'))
         if current_user.is_admin():
+            print(name)
+            if name is None:
+                name = current_user.get_id()
+                print(name)
             user = name
-            user = models.LoginUser.query.filter_by(username=user).first()
             print(user)
+            user = models.LoginUser.query.filter_by(username=user).first()
             data = user.get_spell_query()
             result = user.get_spell_result()
+
         else:
             name = current_user.get_id()
             data = current_user.get_spell_query()
