@@ -105,7 +105,7 @@ def history():
     else:
         data = current_user.get_spell_query()
         try:
-            data = data.split(',')
+            data = data.split('{cut}')
         except AttributeError:
             return render_template('history.html', title="User History", data=False)
         return render_template('history.html', title="User History", data=data)
@@ -126,8 +126,8 @@ def history_q(queryid=None):
         result = current_user.get_spell_result()
         print(data)
         print(result)
-        data = data.split(',')[int_queryid - 1]
-        result = result.split(',')[int_queryid - 1]
+        data = data.split('{cut}')[int_queryid - 1]
+        result = result.split('{cut}')[int_queryid - 1]
         print(data)
         return render_template('queryid.html', title="Query ID " + str(int_queryid), data=data, result=result, queryid=str(int_queryid))
 

@@ -41,11 +41,9 @@ class LoginUser(db.Model, UserMixin):
         old_query = self.get_spell_query()
         if old_query is None:
             # first query for this user
-            print("test first")
             self.spell_query = query
         else:  # not the first query
-            print("test second")
-            new_query = str(old_query) + "," + query
+            new_query = str(old_query) + "{cut}" + query
             self.spell_query = new_query
 
     def get_spell_query(self):
@@ -55,11 +53,9 @@ class LoginUser(db.Model, UserMixin):
         old_result = self.get_spell_result()
         if old_result is None:
             # first result for this user
-            print("test first result")
             self.spell_result = result
         else:  # not the first query
-            print("test second result")
-            new_result = str(old_result) + "," + result
+            new_result = str(old_result) + "{cut}" + result
             self.spell_result = new_result
 
     def get_spell_result(self):
