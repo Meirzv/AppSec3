@@ -15,6 +15,8 @@ class LoginUser(db.Model, UserMixin):
     pw_hash = db.Column(db.String)
     spell_query = db.Column(db.String, default=None)
     spell_result = db.Column(db.String, default=None)
+    logs_in = db.Column(db.String, default=None)
+    logs_out = db.Column(db.String, default=None)
 
     def is_active(self):
         return True
@@ -60,4 +62,37 @@ class LoginUser(db.Model, UserMixin):
 
     def get_spell_result(self):
         return self.spell_result
+
+    def get_logs_in(self):
+        return self.logs_in
+
+    def set_logs_in(self, logs_in):
+        old_logs_in = self.get_logs_in()
+        if old_logs_in is None:
+            # first result for this user
+            self.logs_in = logs_in
+        else:  # not the first query
+            new_logs_in = str(old_logs_in) + "{cut}" + logs_in
+            self.logs_in = new_logs_in
+
+    def get_logs_out(self):
+        return self.logs_out
+
+    def set_logs_out(self, logs_out):
+        old_logs_out = self.get_logs_out()
+        if old_logs_out is None:
+            # first result for this user
+            self.logs_out = logs_out
+        else:  # not the first query
+            new_logs_out = str(old_logs_out) + "{cut}" + logs_out
+            self.logs_out = new_logs_out
+
+    def del_last_logout_value(self):
+        temp = self.logs_out.rfind("{cut}")
+        if temp == -1:
+            self.logs_out = None
+        else:
+            self.logs_out = self.logs_out[:temp]
+        print(temp)
+
 

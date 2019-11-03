@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <h1>{{title}}</h1>
+
+    {% if flag %}
+
+    <form action="" method="post" novalidate >
+        {{ form.hidden_tag() }}
+
+        <h1 id=username>Logs belongs to username: {{ name }}</h1>
+
+
+        <p id="queryid"> Query ID: {{ queryid }}
+        </p>
+            {% for n in range(logs_in | length) %}
+            <ul id="login">
+                <li id="login{{ n + 1 }}_time">{{logs_in[n]}}</li>
+                <li id="logout{{ n + 1 }}_time">{{logs_out[n]}}</li> <br>
+            </ul>
+            {% endfor %}
+
+            <p>
+            {{ form.username.label  }}<br>
+            {{ form.username(id = "userid") }}
+            {% for error in form.username.errors %}
+            <span id = "incorrect" style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+            <p>{{ form.submit() }}</p>
+
+
+    </form>
+
+
+
+    {%  else %}
+
+    <form action="" method="post" novalidate >
+        {{ form.hidden_tag() }}
+
+        <h1 id=username>Logs belongs to username: {{ name }}</h1>
+
+            <p>
+            {{ form.username.label  }}<br>
+            {{ form.username(id = "userid") }}
+            {% for error in form.username.errors %}
+            <span id = "incorrect" style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+            <p>{{ form.submit() }}</p>
+
+
+    </form>
+
+    {%  endif %}
+
+{% endblock %}
