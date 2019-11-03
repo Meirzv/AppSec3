@@ -119,7 +119,13 @@ def history():
                 return render_template('history.html', title="User History", data=False, form=form)
             return render_template('history.html', title="User History", data=data, form=form)
         else:
-            return render_template('history.html', title="User History", data=False, form=form)
+            data = current_user.get_spell_query()
+            form.username.data = current_user.get_id()
+            try:
+                data = data.split('{cut}')
+            except AttributeError:
+                return render_template('history.html', title="User History", data=False, form=form)
+            return render_template('history.html', title="User History", data=data, form=form)
 
     else:
         data = current_user.get_spell_query()
