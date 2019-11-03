@@ -5,10 +5,6 @@
     <form action="" method="post" novalidate >
 
 
-
-
-    </form>
-
     {% if current_user.is_admin() %}
 
         <h1>Showing queries for the user: {{ form.username.data }}</h1>
@@ -32,9 +28,6 @@
     {%  endif %}
 
 
-
-
-        <form action="" method="post" novalidate >
         {{ form.hidden_tag() }}
             <p>
             {{ form.username.label  }}<br>
