@@ -3,7 +3,7 @@ from flask_login import LoginManager, current_user, login_required, logout_user,
 import subprocess
 
 from app import app, db, models
-from app.forms import LoginForm, RegisterForm, SpellChecker
+from app.forms import LoginForm, RegisterForm, SpellChecker, HistoryAdmin
 
 import os
 
@@ -11,6 +11,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 login_manager = LoginManager(app)
 login_manager.init_app(app)
 login_manager.session_protection = "strong"
+
 
 
 @login_manager.user_loader
@@ -98,10 +99,25 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/history')
+@app.route('/history', methods=['GET', 'POST'])
 def history():
+    global name
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
+    elif current_user.is_admin():
+        form = HistoryAdmin()
+        if form.validate_on_submit():
+            user = models.LoginUser.query.filter_by(username=form.username.data).first()
+            name = form.username.data
+            data = user.get_spell_query()
+            try:
+                data = data.split('{cut}')
+            except AttributeError:
+                return render_template('history.html', title="User History", data=False, form=form)
+            return render_template('history.html', title="User History", data=data, form=form)
+        else:
+            return render_template('history.html', title="User History", data=False, form=form)
+
     else:
         data = current_user.get_spell_query()
         try:
@@ -113,6 +129,7 @@ def history():
 
 @app.route('/history/<queryid>')
 def history_q(queryid=None):
+    global name
     if not current_user.is_authenticated or queryid is None:
         return redirect(url_for('history'))
     else:
@@ -121,15 +138,19 @@ def history_q(queryid=None):
         except:
             print(int_queryid)
             print("Bad User input")
-           # return redirect(url_for('history'))
-        data = current_user.get_spell_query()
-        result = current_user.get_spell_result()
-        print(data)
-        print(result)
+            return redirect(url_for('history'))
+        if current_user.is_admin():
+            user = name
+            user = models.LoginUser.query.filter_by(username=user).first()
+            data = user.get_spell_query()
+            result = user.get_spell_result()
+        else:
+            name = current_user.get_id()
+            data = current_user.get_spell_query()
+            result = current_user.get_spell_result()
         data = data.split('{cut}')[int_queryid - 1]
         result = result.split('{cut}')[int_queryid - 1]
-        print(data)
-        return render_template('queryid.html', title="Query ID " + str(int_queryid), data=data, result=result, queryid=str(int_queryid))
+        return render_template('queryid.html', title="Query ID " + str(int_queryid), data=data, result=result, queryid=str(int_queryid), name=name)
 
 
 @app.route("/logout")
