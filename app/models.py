@@ -14,6 +14,7 @@ class LoginUser(db.Model, UserMixin):
     admin = db.Column(db.Boolean, default=False)
     pw_hash = db.Column(db.String)
     spell_query = db.Column(db.String, default=None)
+    spell_result = db.Column(db.String, default=None)
 
     def is_active(self):
         return True
@@ -42,10 +43,24 @@ class LoginUser(db.Model, UserMixin):
             # first query for this user
             print("test first")
             self.spell_query = query
-        else: #not the first query
+        else:  # not the first query
             print("test second")
             new_query = str(old_query) + "," + query
             self.spell_query = new_query
 
     def get_spell_query(self):
         return self.spell_query
+
+    def set_spell_result(self, result):
+        old_result = self.get_spell_result()
+        if old_result is None:
+            # first result for this user
+            print("test first result")
+            self.spell_result = result
+        else:  # not the first query
+            print("test second result")
+            new_result = str(old_result) + "," + result
+            self.spell_result = new_result
+
+    def get_spell_result(self):
+        return self.spell_result
