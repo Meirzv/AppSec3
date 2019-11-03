@@ -11,8 +11,7 @@
 
 
           {% if data %}
-        <p id="numqueries"> Number of queries: {{ data | length }}
-        </p>
+        <p id="numqueries">{{ data | length }}</p>
             <ul>
         {% for n in range(data | length) %}
         <li id="query{{ n + 1 }}">{{data[n]}} <a href="history/query{{ n + 1  }}">click</a></li>
