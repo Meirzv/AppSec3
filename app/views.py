@@ -108,6 +108,9 @@ def history():
         form = HistoryAdmin()
         if form.validate_on_submit():
             user = models.LoginUser.query.filter_by(username=form.username.data).first()
+            if user is None:
+                form.username.data = "'" + form.username.data + "'" + " Not a Valid User"
+                return render_template('history.html', title="User History", data=False, form=form)
             name = form.username.data
             data = user.get_spell_query()
             try:
@@ -142,6 +145,7 @@ def history_q(queryid=None):
         if current_user.is_admin():
             user = name
             user = models.LoginUser.query.filter_by(username=user).first()
+            print(user)
             data = user.get_spell_query()
             result = user.get_spell_result()
         else:
