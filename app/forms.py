@@ -32,3 +32,7 @@ class HistoryAdmin(FlaskForm):
     username = StringField('Enter a username', validators=[DataRequired()])
     submit = SubmitField("submit")
 
+class LoginHistoryAdmin(FlaskForm):
+    username = StringField('Enter a username', validators=[DataRequired()])
+    submit = SubmitField("submit")
+

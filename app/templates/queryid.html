@@ -5,14 +5,14 @@
     <form action="" method="post" novalidate >
 {#        {{ data.hidden_tag() }}#}
 
-        <h1 id=username>Showing queries for the user: {{ name }}</h1>
+        <h1 id="username">Query belongs to username: {{ name }}</h1>
 
 
-        <p id="queryid"> Query Number: {{ queryid }}
+        <p id="queryid"> Query ID: {{ queryid }}
         </p>
             <ul>
-                <li id=id=querytext">{{data}}</li>
-                <li id=id=queryresults">{{result}}</li>
+                <li id="querytext">{{data}}</li>
+                <li id="queryresults">{{result}}</li>
             </ul>
 
     </form>
