@@ -67,7 +67,7 @@ def spell_checker():
 
         user = models.LoginUser.query.filter_by(username=current_user.get_id()).first()
         user.set_spell_query(form.command.data)
-        db.session.commit()
+
 
         p2 = subprocess.Popen(basedir + '/a.out words.txt wordlist.txt', stdin=None, shell=True, stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE)
@@ -83,6 +83,9 @@ def spell_checker():
 
         if output is None:
             output = " No misspelled words"
+
+        user.set_spell_result(output)
+        db.session.commit()
 
         flash(
             Markup('<li id=textout>Misspelled words are:  </li><li class="meir" id="misspelled"> ' + output + ' </li>'))
@@ -102,7 +105,10 @@ def history():
         return redirect(url_for('login'))
     else:
         data = current_user.get_spell_query()
-        data = data.split(',')
+        try:
+            data = data.split(',')
+        except AttributeError:
+            return render_template('history.html', title="User History", data=False)
         return render_template('history.html', title="User History", data=data)
 
 
@@ -118,10 +124,13 @@ def history_q(queryid=None):
             print("Bad User input")
            # return redirect(url_for('history'))
         data = current_user.get_spell_query()
+        result = current_user.get_spell_result()
         print(data)
+        print(result)
         data = data.split(',')[int_queryid - 1]
+        result = result.split(',')[int_queryid - 1]
         print(data)
-        return render_template('queryid.html', title="Query ID " + str(int_queryid), data=data, queryid=str(int_queryid))
+        return render_template('queryid.html', title="Query ID " + str(int_queryid), data=data, result=result, queryid=str(int_queryid))
 
 
 @app.route("/logout")
