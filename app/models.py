@@ -60,3 +60,4 @@ class LoginUser(db.Model, UserMixin):
 
     def get_spell_result(self):
         return self.spell_result
+
