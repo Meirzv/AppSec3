@@ -1,6 +1,7 @@
-from flask import render_template, redirect, url_for, flash, Markup
+from flask import render_template, redirect, url_for, flash, Markup, jsonify, request
 from flask_login import LoginManager, current_user, login_required, logout_user, login_user
 import subprocess
+from flask_restplus import Resource
 
 from app import app, db, models
 from app.forms import LoginForm, RegisterForm, SpellChecker
@@ -83,7 +84,8 @@ def spell_checker():
         if output is None:
             output = " No misspelled words"
 
-        flash(Markup('<li id=textout>Misspelled words are:  </li><li class="meir" id="misspelled"> ' + output + ' </li>'))
+        flash(
+            Markup('<li id=textout>Misspelled words are:  </li><li class="meir" id="misspelled"> ' + output + ' </li>'))
 
     return render_template('spell_check.html', title="Spell Check App", form=form)
 
@@ -101,8 +103,25 @@ def history():
     else:
         data = current_user.get_spell_query()
         data = data.split(',')
-        number = len(data)
         return render_template('history.html', title="User History", data=data)
+
+
+@app.route('/history/<queryid>')
+def history_q(queryid=None):
+    if not current_user.is_authenticated or queryid is None:
+        return redirect(url_for('history'))
+    else:
+        try:
+            int_queryid = int(queryid[5:])
+        except:
+            print(int_queryid)
+            print("Bad User input")
+           # return redirect(url_for('history'))
+        data = current_user.get_spell_query()
+        print(data)
+        data = data.split(',')[int_queryid - 1]
+        print(data)
+        return render_template('queryid.html', title="Query ID " + str(int_queryid), data=data, queryid=str(int_queryid))
 
 
 @app.route("/logout")

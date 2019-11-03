@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <h1>{{title}}</h1>
+    <form action="" method="post" novalidate >
+{#        {{ data.hidden_tag() }}#}
+
+        <h1 id=username>Showing queries for the user: {{ current_user.get_id() }}</h1>
+
+        <p id="queryid"> Query Number: {{ queryid }}
+        </p>
+            <ul>
+                <li id=id=querytext">{{data}}</li>
+                <li id=id=queryresults">{{data}}</li>
+            </ul>
+
+    </form>
+
+{% endblock %}

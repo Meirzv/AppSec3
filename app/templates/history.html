@@ -5,13 +5,13 @@
     <form action="" method="post" novalidate >
 {#        {{ data.hidden_tag() }}#}
 
-        <h1>Showing queris for {{ current_user.get_id }}</h1>
+        <h1>Showing queries for the user: {{ current_user.get_id() }}</h1>
 
-        <p id="numqueries"> Number of queries {{ data | length }}
+        <p id="numqueries"> Number of queries: {{ data | length }}
         </p>
             <ul>
         {% for n in range(data | length) %}
-        <li id="query{{ n + 1 }}">{{data[n]}} <a href="history/{{ n + 1  }}">click</a></li>
+        <li id="query{{ n + 1 }}">{{data[n]}} <a href="history/query{{ n + 1  }}">click</a></li>
         {% endfor %}
             </ul>
 
