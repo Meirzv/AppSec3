@@ -8,10 +8,11 @@
     <form action="" method="post" novalidate >
         {{ form.hidden_tag() }}
 
-        <h1 id=username>Logs belongs to username: {{ name }}</h1>
+{#    Logs belongs to username: #}
+        <p id=username>{{ name }}</p>
 
 
-        <p id="queryid"> Query ID: {{ queryid }}
+        <p id="queryid">{{ queryid }}
         </p>
             {% for n in range(logs_in | length) %}
             <ul id="login">
@@ -39,7 +40,7 @@
     <form action="" method="post" novalidate >
         {{ form.hidden_tag() }}
 
-        <h1 id=username>Logs belongs to username: {{ name }}</h1>
+        <p id=username>{{ name }}</p>
 
             <p>
             {{ form.username.label  }}<br>
