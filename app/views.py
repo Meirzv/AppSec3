@@ -4,15 +4,16 @@ import subprocess
 from datetime import datetime
 
 from app import app, db, models
-from app.forms import LoginForm, RegisterForm, SpellChecker, HistoryAdmin, name, LoginHistoryAdmin
+from app.forms import LoginForm, RegisterForm, SpellChecker, HistoryAdmin, LoginHistoryAdmin
 
 import os
+
+from app.models import SpellCheck
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 login_manager = LoginManager(app)
 login_manager.init_app(app)
 login_manager.session_protection = "strong"
-
 
 
 @login_manager.user_loader
@@ -72,9 +73,23 @@ def spell_checker():
         f.write(form.command.data)
         f.close()
 
-        user = models.LoginUser.query.filter_by(username=current_user.get_id()).first()
-        user.set_spell_query(form.command.data)
+        #   user = models.LoginUser.query.filter_by(username=current_user.get_id()).first()
+        #   user.set_spell_query(form.command.data)
 
+        user_query = models.SpellCheck.query.filter_by(user_id=current_user.get_id()).first()
+        # if user_query == None:
+        #      query=1
+        # else:
+        #     query = models.SpellCheck.query.first()
+        #     query.query_id = models.SpellCheck.query_id + 1
+        #
+        #     print(type(query))
+        #     print(query.query_id)
+        #     print("query id Result=  " + str(query))
+        #     db.session.add(user_query)
+        # db.session.commit()
+
+        # print("------" + str(user_query) +"------")
 
         p2 = subprocess.Popen(basedir + '/a.out words.txt wordlist.txt', stdin=None, shell=True, stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE)
@@ -89,9 +104,13 @@ def spell_checker():
                     output = output + ", " + word
 
         if output is None:
-            output = " No misspelled words"
+            output = "No misspelled words"
 
-        user.set_spell_result(output)
+        # user.set_spell_result(output)
+
+        user_query = models.SpellCheck(spell_query=form.command.data, spell_result=output,
+                                       user_id=current_user.get_id())
+        db.session.add(user_query)
         db.session.commit()
 
         flash(
@@ -112,40 +131,47 @@ def history():
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
     elif current_user.is_admin():
+        # Print all users queries
+        queries = SpellCheck.query.all()
+        print(queries)
+        queries_dict = dict()
+        data = dict()
+        for idt in queries:
+            queries_dict[idt.query_id] = [idt.spell_result, idt.spell_query, idt.user_id]
+        print(queries_dict)
         form = HistoryAdmin()
         if form.validate_on_submit():
-            user = models.LoginUser.query.filter_by(username=form.username.data).first()
-            if user is None:
+            user = models.SpellCheck.query.filter_by(user_id=form.username.data).all()
+            try:
+                for idt in user:
+                    data[idt.query_id] = [idt.spell_result, idt.spell_query, idt.user_id]
+            except:
                 form.username.data = "'" + form.username.data + "'" + " Not a Valid User"
                 return render_template('history.html', title="User History", data=False, form=form)
-            name = form.username.data
-            data = user.get_spell_query()
-            try:
-                data = data.split('{cut}')
-            except AttributeError:
-                return render_template('history.html', title="User History", data=False, form=form)
-            return render_template('history.html', title="User History", data=data, form=form)
+
+            return render_template('history.html', title="User History", data=data, form=form, queries_dict=queries_dict)
         else:
-            data = current_user.get_spell_query()
-            form.username.data = current_user.get_id()
-            try:
-                data = data.split('{cut}')
-            except AttributeError:
-                return render_template('history.html', title="User History", data=False, form=form)
-            return render_template('history.html', title="User History", data=data, form=form)
+            return render_template('history.html', title="User History", data=False, queries_dict=queries_dict,
+                                   form=form)
 
     else:
-        data = current_user.get_spell_query()
+        user = models.SpellCheck.query.filter_by(user_id=current_user.get_id()).all()
+        data = dict()
+        index = list()
         try:
-            data = data.split('{cut}')
+            for idt in user:
+                data[idt.query_id] = [idt.query_id, idt.spell_result, idt.spell_query, idt.user_id]
+                index.append(idt.query_id)
         except AttributeError:
             return render_template('history.html', title="User History", data=False)
-        return render_template('history.html', title="User History", data=data)
+        print(index)
+        return render_template('history.html', title="User History", data=data, index=index)
 
 
 @app.route('/history/<queryid>')
 def history_q(queryid=None):
     global name
+    data = dict()
     if not current_user.is_authenticated or queryid is None:
         return redirect(url_for('history'))
     else:
@@ -156,21 +182,27 @@ def history_q(queryid=None):
             print("Bad User input")
             return redirect(url_for('history'))
         if current_user.is_admin():
-            if name is None:
-                name = current_user.get_id()
+            queries = SpellCheck.query.all()
 
-            user = models.LoginUser.query.filter_by(username=name).first()
-            data = user.get_spell_query()
-            result = user.get_spell_result()
+            for idt in queries:
+                data[idt.query_id] = [idt.spell_result, idt.spell_query, idt.user_id]
 
+            user = data[int_queryid][2]
+            query = data[int_queryid][1]
+            result = data[int_queryid][0]
+
+            return render_template('queryid.html', title="Query ID " + str(int_queryid), data=query, outcome=result,
+                                   queryid=str(int_queryid), name=user)
         else:
-            name = current_user.get_id()
-            data = current_user.get_spell_query()
-            result = current_user.get_spell_result()
-        data = data.split('{cut}')[int_queryid - 1]
-        result = result.split('{cut}')[int_queryid - 1]
-        return render_template('queryid.html', title="Query ID " + str(int_queryid), data=data, result=result,
-                               queryid=str(int_queryid), name=name)
+            queries = SpellCheck.query.filter_by(user_id=current_user.get_id(), query_id=int(int_queryid)).limit(1).all()
+            for idt in queries:
+                data[idt.query_id] = [idt.spell_result, idt.spell_query, idt.user_id]
+            user = data[int_queryid][2]
+            query = data[int_queryid][1]
+            result = data[int_queryid][0]
+
+        return render_template('queryid.html', title="Query ID " + str(int_queryid), data=query, outcome=result,
+                               queryid=str(int_queryid), name=user)
 
 
 @app.route("/logout")
@@ -185,6 +217,7 @@ def logout():
     logout_user()
     return redirect('index')
 
+
 @app.route("/login_history", methods=['GET', 'POST'])
 def loginHistory():
     if current_user.is_authenticated and current_user.is_admin():
@@ -194,7 +227,7 @@ def loginHistory():
             try:
                 logs_in = user.get_logs_in().split('{cut}')
                 logs_out = user.get_logs_out().split('{cut}')
-            except: #NoneType
+            except:  # NoneType
                 return render_template('LoginHistoryAdmin.html', title="No Logs to Show", form=form, flag=False)
             print(logs_in)
             print(logs_out)
@@ -204,4 +237,3 @@ def loginHistory():
             return render_template('LoginHistoryAdmin.html', title="Login History", form=form, flag=False)
     else:
         return redirect('index')
-
