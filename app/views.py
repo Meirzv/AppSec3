@@ -181,7 +181,7 @@ def history_q(queryid=None):
             print(int_queryid)
             print("Bad User input")
             return redirect(url_for('history'))
-        if current_user.get_id() == 'admin' or current_user.get_id():
+        if current_user.get_id() == 'admin' or current_user.is_admin():
             print(current_user.get_id())
             queries = SpellCheck.query.all()
 
@@ -194,18 +194,18 @@ def history_q(queryid=None):
 
             return render_template('queryid.html', title="Query ID " + str(int_queryid), data=query, outcome=result,
                                    queryid=str(int_queryid), name=user)
-        # else:
-        #     queries = SpellCheck.query.filter_by(user_id=current_user.get_id()).limit(int_queryid).all()
-        #     n = 0
-        #     for idt in queries:
-        #         n = n + 1
-        #         data[n] = [idt.spell_result, idt.spell_query, idt.user_id]
-        #     user = data[n][2]
-        #     query = data[n][1]
-        #     result = data[n][0]
-        #
-        #     return render_template('queryid.html', title="Query ID " + str(int_queryid), data=query, outcome=result,
-        #                            queryid=str(int_queryid), name=user)
+        else:
+            queries = SpellCheck.query.filter_by(user_id=current_user.get_id()).limit(int_queryid).all()
+            n = 0
+            for idt in queries:
+                n = n + 1
+                data[n] = [idt.spell_result, idt.spell_query, idt.user_id]
+            user = data[n][2]
+            query = data[n][1]
+            result = data[n][0]
+
+            return render_template('queryid.html', title="Query ID " + str(int_queryid), data=query, outcome=result,
+                                   queryid=str(int_queryid), name=user)
 
 
 @app.route("/logout")
