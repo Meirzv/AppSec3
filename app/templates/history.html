@@ -9,7 +9,7 @@
 
         <h1>All Queries Available</h1>
 
-        {% if queries_dict %}
+        {% if queries_dict and not data %}
         <p id="numqueries">{{ queries_dict | length }}</p>
             <ul>
         {% for n in range(queries_dict | length) %}
@@ -25,7 +25,7 @@
         <p id="numqueries">{{ data | length }}</p>
             <ul>
         {% for n in range(data | length) %}
-        <li id="query{{ n + 1 }}">{{data[n+1]}} <a href="history/query{{ n + 1  }}">click</a></li>
+        <li id="query{{ n + 1 }}">{{ data[index[n]] }} <a href="history/query{{ index[n]  }}">click</a></li>
         {% endfor %}
             </ul>
 
