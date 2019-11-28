@@ -150,7 +150,7 @@ def history():
                 return render_template('history.html', title="User History", data=False, form=form)
             print(index)
             return render_template('history.html', title="User History", data=data, form=form, queries_dict=queries_dict
-                                   ,index=index)
+                                   , index=index)
         else:
             return render_template('history.html', title="User History", data=False, queries_dict=queries_dict,
                                    form=form)
@@ -194,18 +194,18 @@ def history_q(queryid=None):
 
             return render_template('queryid.html', title="Query ID " + str(int_queryid), data=query, outcome=result,
                                    queryid=str(int_queryid), name=user)
-        else:
-            queries = SpellCheck.query.filter_by(user_id=current_user.get_id()).limit(int_queryid).all()
-            n=0
-            for idt in queries:
-                n = n+1
-                data[n] = [idt.spell_result, idt.spell_query, idt.user_id]
-            user = data[n][2]
-            query = data[n][1]
-            result = data[n][0]
-
-            return render_template('queryid.html', title="Query ID " + str(int_queryid), data=query, outcome=result,
-                               queryid=str(int_queryid), name=user)
+        # else:
+        #     queries = SpellCheck.query.filter_by(user_id=current_user.get_id()).limit(int_queryid).all()
+        #     n = 0
+        #     for idt in queries:
+        #         n = n + 1
+        #         data[n] = [idt.spell_result, idt.spell_query, idt.user_id]
+        #     user = data[n][2]
+        #     query = data[n][1]
+        #     result = data[n][0]
+        #
+        #     return render_template('queryid.html', title="Query ID " + str(int_queryid), data=query, outcome=result,
+        #                            queryid=str(int_queryid), name=user)
 
 
 @app.route("/logout")
