@@ -196,7 +196,7 @@ def history_q(queryid=None):
         else:
             queries = SpellCheck.query.filter_by(user_id=current_user.get_id(), query_id=int(int_queryid)).limit(1).all()
             for idt in queries:
-                data[idt.query_id] = [idt.spell_result, idt.spell_query, idt.user_id]
+                data[int_queryid] = [idt.spell_result, idt.spell_query, idt.user_id]
             user = data[int_queryid][2]
             query = data[int_queryid][1]
             result = data[int_queryid][0]
