@@ -171,7 +171,6 @@ def history():
 
 @app.route('/history/<queryid>')
 def history_q(queryid=None):
-    global name
     data = dict()
     if not current_user.is_authenticated or queryid is None:
         return redirect(url_for('history'))
@@ -182,7 +181,7 @@ def history_q(queryid=None):
             print(int_queryid)
             print("Bad User input")
             return redirect(url_for('history'))
-        if current_user.get_id() == 'admin':
+        if current_user.get_id() == 'admin' or current_user.get_id() == 'Admin':
             print(current_user.get_id())
             queries = SpellCheck.query.all()
 
