@@ -127,7 +127,6 @@ def index():
 
 @app.route('/history', methods=['GET', 'POST'])
 def history():
-    global name
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
     elif current_user.is_admin():

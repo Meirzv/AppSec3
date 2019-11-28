@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="83123496-7441-4887-8b05-3aecbfcfd79c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/history.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/history.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meir.db" beforeDir="false" afterPath="$PROJECT_DIR$/meir.db" afterDir="false" />
-    </list>
+    <list default="true" id="83123496-7441-4887-8b05-3aecbfcfd79c" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +153,7 @@
       <workItem from="1572714056992" duration="34235000" />
       <workItem from="1573431565615" duration="22000" />
       <workItem from="1573431611072" duration="21000" />
-      <workItem from="1573431642862" duration="28791000" />
+      <workItem from="1573431642862" duration="29004000" />
     </task>
     <task id="LOCAL-00001" summary="Adding Admin user">
       <created>1572710807071</created>
@@ -205,6 +201,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'meir-test' of github.com:Meirzv/AppSec3 into meir-test&#10;&#10;# Conflicts:&#10;#&#9;meir.db" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Assignment_3$Assignment_3.coverage" NAME="Assignment 3 Coverage Results" MODIFIED="1574972867329" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Assignment_3$Assignment_3.coverage" NAME="Assignment 3 Coverage Results" MODIFIED="1574973256986" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
