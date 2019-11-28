@@ -196,16 +196,19 @@ def history_q(queryid=None):
                                    queryid=str(int_queryid), name=user)
         else:
             queries = SpellCheck.query.filter_by(user_id=current_user.get_id()).limit(int_queryid).all()
-            n = 0
-            for idt in queries:
-                n = n + 1
-                data[n] = [idt.spell_result, idt.spell_query, idt.user_id]
-            user = data[n][2]
-            query = data[n][1]
-            result = data[n][0]
-
-            return render_template('queryid.html', title="Query ID " + str(int_queryid), data=query, outcome=result,
+            if len(queries) > 0:
+                n = 0
+                for idt in queries:
+                    n = n + 1
+                    data[n] = [idt.spell_result, idt.spell_query, idt.user_id]
+                user = data[n][2]
+                query = data[n][1]
+                result = data[n][0]
+                return render_template('queryid.html', title="Query ID " + str(int_queryid), data=query, outcome=result,
                                    queryid=str(int_queryid), name=user)
+            else:
+                user = current_user.get_id()
+                return render_template('queryid.html', title="No Queries Available", data=False, name=user)
 
 
 @app.route("/logout")
