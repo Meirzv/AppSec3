@@ -73,24 +73,6 @@ def spell_checker():
         f.write(form.command.data)
         f.close()
 
-        #   user = models.LoginUser.query.filter_by(username=current_user.get_id()).first()
-        #   user.set_spell_query(form.command.data)
-
-        user_query = models.SpellCheck.query.filter_by(user_id=current_user.get_id()).first()
-        # if user_query == None:
-        #      query=1
-        # else:
-        #     query = models.SpellCheck.query.first()
-        #     query.query_id = models.SpellCheck.query_id + 1
-        #
-        #     print(type(query))
-        #     print(query.query_id)
-        #     print("query id Result=  " + str(query))
-        #     db.session.add(user_query)
-        # db.session.commit()
-
-        # print("------" + str(user_query) +"------")
-
         p2 = subprocess.Popen(basedir + '/a.out words.txt wordlist.txt', stdin=None, shell=True, stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE)
         p3 = p2.stdout
@@ -106,7 +88,7 @@ def spell_checker():
         if output is None:
             output = "No misspelled words"
 
-        # user.set_spell_result(output)
+
 
         user_query = models.SpellCheck(spell_query=form.command.data, spell_result=output,
                                        user_id=current_user.get_id())
@@ -204,7 +186,7 @@ def history_q(queryid=None):
                 query = data[n][1]
                 result = data[n][0]
                 return render_template('queryid.html', title="Query ID " + str(int_queryid), data=query, outcome=result,
-                                   queryid=str(int_queryid), name=user)
+                                       queryid=str(int_queryid), name=user)
             else:
                 user = current_user.get_id()
                 return render_template('queryid.html', title="No Queries Available", data=False, name=user)

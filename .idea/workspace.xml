@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="83123496-7441-4887-8b05-3aecbfcfd79c" name="Default Changelist" comment="" />
+    <list default="true" id="83123496-7441-4887-8b05-3aecbfcfd79c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,6 +135,11 @@
               <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@b7a1b6c6" type="7427dc5b:ServiceModel$ServiceGroupNode" />
               <item name="com.intellij.execution.services.ServiceModel$ServiceNode@7c510460" type="9fbbdea:ServiceModel$ServiceNode" />
             </path>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@b7a1b6c6" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@7068d496" type="9fbbdea:ServiceModel$ServiceNode" />
+            </path>
           </expand>
           <select />
         </treeState>
@@ -153,7 +161,7 @@
       <workItem from="1572714056992" duration="34235000" />
       <workItem from="1573431565615" duration="22000" />
       <workItem from="1573431611072" duration="21000" />
-      <workItem from="1573431642862" duration="29004000" />
+      <workItem from="1573431642862" duration="29481000" />
     </task>
     <task id="LOCAL-00001" summary="Adding Admin user">
       <created>1572710807071</created>
