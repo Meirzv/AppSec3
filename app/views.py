@@ -194,14 +194,16 @@ def history_q(queryid=None):
             return render_template('queryid.html', title="Query ID " + str(int_queryid), data=query, outcome=result,
                                    queryid=str(int_queryid), name=user)
         else:
-            queries = SpellCheck.query.filter_by(user_id=current_user.get_id(), query_id=int(int_queryid)).limit(1).all()
+            queries = SpellCheck.query.filter_by(user_id=current_user.get_id()).limit(int_queryid).all()
+            n=0
             for idt in queries:
-                data[int_queryid] = [idt.spell_result, idt.spell_query, idt.user_id]
-            user = data[int_queryid][2]
-            query = data[int_queryid][1]
-            result = data[int_queryid][0]
+                n = n+1
+                data[n] = [idt.spell_result, idt.spell_query, idt.user_id]
+            user = data[n][2]
+            query = data[n][1]
+            result = data[n][0]
 
-        return render_template('queryid.html', title="Query ID " + str(int_queryid), data=query, outcome=result,
+            return render_template('queryid.html', title="Query ID " + str(int_queryid), data=query, outcome=result,
                                queryid=str(int_queryid), name=user)
 
 
