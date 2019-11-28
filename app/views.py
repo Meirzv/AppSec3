@@ -181,7 +181,7 @@ def history_q(queryid=None):
             print(int_queryid)
             print("Bad User input")
             return redirect(url_for('history'))
-        if current_user.get_id() == 'admin' or current_user.get_id() == True:
+        if current_user.get_id() == 'admin' or current_user.get_id():
             print(current_user.get_id())
             queries = SpellCheck.query.all()
 
