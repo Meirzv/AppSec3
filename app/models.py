@@ -1,5 +1,8 @@
+import hashlib
+import uuid
 from flask_login import UserMixin
 from sqlalchemy import Sequence
+
 
 from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -15,6 +18,7 @@ class LoginUser(db.Model, UserMixin):
     authenticated = db.Column(db.Boolean, default=False)
     admin = db.Column(db.Boolean, default=False)
     pw_hash = db.Column(db.String)
+    pw_salt = db.Column(db.String)
     logs_in = db.Column(db.String, default=None)
     logs_out = db.Column(db.String, default=None)
     spell_check = db.relationship('SpellCheck', backref='user', lazy=True)
@@ -35,10 +39,14 @@ class LoginUser(db.Model, UserMixin):
         return False
 
     def set_password(self, password):
-        self.pw_hash = generate_password_hash(password)
+        self.pw_salt = uuid.uuid4().hex
+        self.pw_hash = hashlib.sha512(password.encode('utf-8') + self.pw_salt.encode('utf-8')).hexdigest()
+        # self.pw_hash = generate_password_hash(password + self.pw_salt)
 
     def check_password(self, password):
-        return check_password_hash(self.pw_hash, password)
+        temp_pw = hashlib.sha512(password.encode('utf-8') + self.pw_salt.encode('utf-8')).hexdigest()
+        return temp_pw == self.pw_hash
+        # return check_password_hash(self.pw_hash, password + self.pw_salt)
 
 
     def get_logs_in(self):
@@ -83,27 +91,3 @@ class SpellCheck(db.Model):
     user_id = db.Column(db.String, db.ForeignKey('user.username'),
                           nullable=True)
 
-
-    def set_spell_query(self, query):
-        old_query = self.get_spell_query()
-        if old_query is None:
-            # first query for this user
-            self.spell_query = query
-        else:  # not the first query
-            new_query = str(old_query) + "{cut}" + query
-            self.spell_query = new_query
-
-    def get_spell_query(self):
-        return self.spell_query
-
-    def set_spell_result(self, result):
-        old_result = self.get_spell_result()
-        if old_result is None:
-            # first result for this user
-            self.spell_result = result
-        else:  # not the first query
-            new_result = str(old_result) + "{cut}" + result
-            self.spell_result = new_result
-
-    def get_spell_result(self):
-        return self.spell_result
