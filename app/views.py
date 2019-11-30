@@ -37,7 +37,6 @@ def login():
         flash(Markup('Logged in successfully. <li class="meir" id="result"> success </li>'))
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
-        print(current_time)
         current_user.set_logs_in(current_time)
         current_user.set_logs_out('N/A.')
         db.session.commit()
@@ -163,7 +162,6 @@ def history_q(queryid=None):
             print("Bad User input")
             return redirect(url_for('history'))
         if current_user.get_id() == 'admin' or current_user.is_admin():
-            print(current_user.get_id())
             queries = SpellCheck.query.all()
 
             for idt in queries:
@@ -197,7 +195,6 @@ def history_q(queryid=None):
 def logout():
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
-    print(current_time)
     current_user.del_last_logout_value()
     current_user.set_logs_out(current_time)
     db.session.commit()
@@ -216,8 +213,6 @@ def loginHistory():
                 logs_out = user.get_logs_out().split('{cut}')
             except:  # NoneType
                 return render_template('LoginHistoryAdmin.html', title="No Logs to Show", form=form, flag=False)
-            print(logs_in)
-            print(logs_out)
             return render_template('LoginHistoryAdmin.html', title="Login History", name=form.username.data,
                                    logs_in=logs_in, logs_out=logs_out, flag=True, form=form)
         else:

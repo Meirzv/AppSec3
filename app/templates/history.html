@@ -13,7 +13,7 @@
         <p id="numqueries">{{ queries_dict | length }}</p>
             <ul>
         {% for n in range(queries_dict | length) %}
-        <li id="query{{ n + 1 }}">{{queries_dict[n+1] }} <a href="history/query{{ n + 1  }}">click</a></li>
+        <li id="query{{ n + 1 }}"> {{ queries_dict[n+1] }} <a href="history/query{{ n + 1  }}">click</a></li>
         {% endfor %}
             </ul>
         {% endif %}

@@ -5,7 +5,7 @@ from sqlalchemy import Sequence
 
 
 from app import db
-from werkzeug.security import generate_password_hash, check_password_hash
+
 
 db.create_all()
 
@@ -41,12 +41,10 @@ class LoginUser(db.Model, UserMixin):
     def set_password(self, password):
         self.pw_salt = uuid.uuid4().hex
         self.pw_hash = hashlib.sha512(password.encode('utf-8') + self.pw_salt.encode('utf-8')).hexdigest()
-        # self.pw_hash = generate_password_hash(password + self.pw_salt)
 
     def check_password(self, password):
         temp_pw = hashlib.sha512(password.encode('utf-8') + self.pw_salt.encode('utf-8')).hexdigest()
         return temp_pw == self.pw_hash
-        # return check_password_hash(self.pw_hash, password + self.pw_salt)
 
 
     def get_logs_in(self):
