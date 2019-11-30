@@ -3,11 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="83123496-7441-4887-8b05-3aecbfcfd79c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/history.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/history.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meir.db" beforeDir="false" afterPath="$PROJECT_DIR$/meir.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/words.txt" beforeDir="false" afterPath="$PROJECT_DIR$/words.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -153,7 +148,7 @@
       <workItem from="1572714056992" duration="34235000" />
       <workItem from="1573431565615" duration="22000" />
       <workItem from="1573431611072" duration="21000" />
-      <workItem from="1573431642862" duration="41388000" />
+      <workItem from="1573431642862" duration="42556000" />
     </task>
     <task id="LOCAL-00001" summary="Adding Admin user">
       <created>1572710807071</created>
